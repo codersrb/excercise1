@@ -1,0 +1,55 @@
+<?php
+/**
+ * @todo Initialise the view
+ */
+$this->headTitle($title);
+?>
+<p class="login-box-msg">Sign up to create an account</p>
+
+<?php  $form = $signupForm; ?>
+<?php $form->prepare(); ?>
+
+<?php
+
+print_r($formErrors);
+?>
+
+
+<?php echo $this->form()->openTag($form)?>
+
+	<div class="form-group has-feedback">
+		<?php echo $this->formelement($form->get('userName'))?> <span class="glyphicon glyphicon-user form-control-feedback"></span>
+	</div>
+
+	<div class="form-group has-feedback">
+		<?php echo $this->formelement($form->get('userPassword'))?>  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+	</div>
+
+	<div class="form-group has-feedback">
+		<?php echo $this->formelement($form->get('userConfirmPassword'))?>  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+	</div>
+
+	<div class="form-group has-feedback">
+		<?php echo $this->formelement($form->get('userDateofBirth'))?>  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+	</div>
+
+	<div class="form-group has-feedback">
+		<?php echo $this->formelement($form->get('userPhoneNumber'))?>  <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+	</div>
+
+	<div class="form-group has-feedback">
+		<?php echo $this->formelement($form->get('userAddress'))?>  <span class="glyphicon glyphicon-home form-control-feedback"></span>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-8">
+
+		</div>
+		<!-- /.col -->
+		<div class="col-xs-4 text-right">
+			<?php echo $this->formElement($form->get('token')); ?>
+			<?php echo $this->formElement($form->get('submit')); ?>
+		</div>
+		<!-- /.col -->
+	</div>
+<?php echo $this->form()->closeTag()?>
