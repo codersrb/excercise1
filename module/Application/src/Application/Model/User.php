@@ -102,6 +102,15 @@ class User implements InputFilterAwareInterface
 		                 'max'      => 100,
 		             ),
 		         ),
+				 array(
+		            'name' => 'Identical',
+		            'options' => array(
+		                'token' => 'userPassword',
+						// 'messages' => [ \Zend\Validator\Identical::notSame => 'Password and Compare password should be same' ]
+		            ),
+		        ),
+
+
 		     ),
 		 ));
 

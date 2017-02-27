@@ -10,35 +10,77 @@ $this->headTitle($title);
 <?php $form->prepare(); ?>
 
 <?php
-
-print_r($formErrors);
+// echo '<pre>';
+// print_r($formErrors);
 ?>
 
 
 <?php echo $this->form()->openTag($form)?>
 
-	<div class="form-group has-feedback">
+	<div class="form-group has-feedback <?php echo count($form->get('userName')->getMessages()) > 0 ? 'has-error' : '' ?>">
 		<?php echo $this->formelement($form->get('userName'))?> <span class="glyphicon glyphicon-user form-control-feedback"></span>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('userName'));
+		?>
 	</div>
 
-	<div class="form-group has-feedback">
+	<div class="form-group has-feedback <?php echo count($form->get('userPassword')->getMessages()) > 0 ? 'has-error' : '' ?>">
 		<?php echo $this->formelement($form->get('userPassword'))?>  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('userPassword'));
+		?>
 	</div>
 
-	<div class="form-group has-feedback">
+	<div class="form-group has-feedback <?php echo count($form->get('userConfirmPassword')->getMessages()) > 0 ? 'has-error' : '' ?>">
 		<?php echo $this->formelement($form->get('userConfirmPassword'))?>  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('userConfirmPassword'));
+		?>
 	</div>
 
-	<div class="form-group has-feedback">
+	<div class="form-group has-feedback <?php echo count($form->get('userDateofBirth')->getMessages()) > 0 ? 'has-error' : '' ?>">
 		<?php echo $this->formelement($form->get('userDateofBirth'))?>  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('userDateofBirth'));
+		?>
 	</div>
 
-	<div class="form-group has-feedback">
+	<div class="form-group has-feedback <?php echo count($form->get('userPhoneNumber')->getMessages()) > 0 ? 'has-error' : '' ?>">
 		<?php echo $this->formelement($form->get('userPhoneNumber'))?>  <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('userPhoneNumber'));
+		?>
 	</div>
 
-	<div class="form-group has-feedback">
+	<div class="form-group has-feedback <?php echo count($form->get('userAddress')->getMessages()) > 0 ? 'has-error' : '' ?>">
 		<?php echo $this->formelement($form->get('userAddress'))?>  <span class="glyphicon glyphicon-home form-control-feedback"></span>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('userAddress'));
+		?>
 	</div>
 
 	<div class="row">
