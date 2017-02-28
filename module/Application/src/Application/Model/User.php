@@ -94,6 +94,9 @@ class User implements InputFilterAwareInterface
 					         'exclude' => $clause,
 			             ),
 			         ),
+					 array(
+						 'name' => 'Alpha'
+					 ),
 			     ),
 			 ));
 
@@ -113,6 +116,9 @@ class User implements InputFilterAwareInterface
 		                 'max'      => 25,
 		             ),
 		         ),
+				 array(
+					 'name' => 'Alnum'
+				 ),
 		     ),
 		 ));
 
@@ -139,6 +145,9 @@ class User implements InputFilterAwareInterface
 		                'token' => 'userPassword',
 		            ),
 		        ),
+				array(
+					'name' => 'Alnum'
+				),
 
 
 		     ),
@@ -160,6 +169,9 @@ class User implements InputFilterAwareInterface
 		                 'max'      => 15,
 		             ),
 		         ),
+				 array(
+		             'name'    => 'Digits',
+		         ),
 		     ),
 		 ));
 
@@ -169,8 +181,13 @@ class User implements InputFilterAwareInterface
 		     'filters'  => array(
 		         array('name' => 'StripTags'),
 		         array('name' => 'StringTrim'),
-		     )
+		     ),
+			 'validators' => array(
+				 array('name' => 'Date')
+			 )
 		 ));
+
+
 		 $inputFilter->add(array(
 		     'name'     => 'userAddress',
 		     'required' => true,
@@ -188,6 +205,14 @@ class User implements InputFilterAwareInterface
 		             ),
 		         ),
 		     ),
+		 ));
+
+
+		 $inputFilter->add(array(
+		     'name'     => 'csrf',
+		     'validators'  => array(
+		         array('name' => 'csrf'),
+		     )
 		 ));
 
 		 $this->inputFilter = $inputFilter;

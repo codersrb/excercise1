@@ -13,6 +13,9 @@ if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['RE
 // Setup autoloading
 require 'init_autoloader.php';
 
+// error_reporting(E_ALL);
+// ini_set('display_errors', true);
+
 // Config
 $appConfig = include 'config/application.config.php';
 if (file_exists('config/development.config.php')) {

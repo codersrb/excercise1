@@ -2,6 +2,7 @@
 namespace Application\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Crypt\Password\Bcrypt;
 use Exception;
 
 class UserTable
@@ -19,9 +20,12 @@ class UserTable
 	 */
     public function save(User $user)
     {
+		$bcrypt = new Bcrypt();
+		$passwordHash = $bcrypt->create($user->userPassword);
+		
 		$data = [
 			'userName' => $user->userName,
-			'userPassword' => password_hash($user->userPassword, PASSWORD_DEFAULT),
+			'userPassword' => $passwordHash,
 			'userPhoneNumber' => $user->userPhoneNumber,
 			'userDateofBirth' => $user->userDateofBirth,
 			'userAddress' => $user->userAddress,

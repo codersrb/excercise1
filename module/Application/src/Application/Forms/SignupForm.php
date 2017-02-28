@@ -4,16 +4,32 @@ namespace Application\Forms;
 use Zend\Form\Form;
 use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Hidden;
+use Zend\InputFilter\InputFilter;
+use Zend\Captcha\Image;
+use Zend\Captcha\AdapterInterface;
 
 class SignupForm extends Form
 {
+
+	protected $captcha;
 
     function __construct()
     {
         parent::__construct('signup-form');
 
         $this->setAttribute('method', 'post');
-		// $this->setAttribute('novalidate', 'novalidate');
+		$this->setAttribute('novalidate', 'novalidate');
+
+
+		$this->captcha = new Image(array(
+            'expiration' => '300',
+            'wordlen' => '5',
+            'font' => 'data/fonts/arial.ttf',
+            'fontSize' => '30',
+            'imgDir' => 'public/captcha',
+            'imgUrl' => 'captcha'
+        ));
+
 
         $this->add(array(
             'name' => 'userName',
@@ -67,7 +83,7 @@ class SignupForm extends Form
 
 		$this->add(array(
             'name' => 'userDateofBirth',
-            'type' => 'Date',
+            'type' => 'DateSelect',
             'options' => array(
                 'label' => 'Date of Birth',
 				'format' => 'Y-m-d',
@@ -92,6 +108,7 @@ class SignupForm extends Form
 				)
 			),
 			'attributes' => array(
+				'type' => 'tel',
 				'class' => 'form-control',
 				'required' => true,
 				'placeholder' => 'Telephone Number'
@@ -115,6 +132,27 @@ class SignupForm extends Form
 				'placeholder' => 'Address'
 			)
 		));
+
+		$this->add(array(
+	     'type' => 'Zend\Form\Element\Csrf',
+	     'name' => 'csrf',
+	    //  'options' => array(
+	    //          'csrf_options' => array(
+	    //                  'timeout' => 600
+	    //          )
+	    //  )
+	   ));
+
+
+	   $this->add(array(
+            'name' => 'captcha',
+            'options' => array(
+                'label' => 'Verification',
+                'captcha' => $this->captcha,
+            ),
+            'type'  => 'Zend\Form\Element\Captcha',
+        ));
+
 
         $this->add(array(
             'name' => 'submit',

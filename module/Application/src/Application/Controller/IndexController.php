@@ -66,7 +66,7 @@ class IndexController extends AbstractActionController
         return new ViewModel([
             'signupForm' => $signupForm,
             'formErrors' => $formErrors,
-			'title' => 'Login'
+			'title' => 'Signup'
         ]);
     }
 
@@ -78,7 +78,9 @@ class IndexController extends AbstractActionController
     {
 		$this->layout('login');
 
-        return new ViewModel();
+        return new ViewModel([
+			'title' => 'Signup Successfull'
+		]);
     }
 
 	/**

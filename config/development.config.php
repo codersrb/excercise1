@@ -3,8 +3,8 @@
 return array(
     // Development time modules
     'modules' => array(
-        'ZFTool',
-        'ZendDeveloperTools',
+        // 'ZFTool',
+        // 'ZendDeveloperTools',
     ),
 
     // Turn off caching

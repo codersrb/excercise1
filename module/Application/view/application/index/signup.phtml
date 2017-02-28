@@ -9,6 +9,20 @@ $this->headTitle($title);
 <?php  $form = $signupForm; ?>
 <?php $form->prepare(); ?>
 
+<?php
+/**
+ * @todo If wrong CSRF token
+ */
+if($formErrors && array_key_exists('csrf', $formErrors))
+{
+	echo $this->formElementErrors()
+		->setMessageOpenFormat('<label class="text-danger">')
+		->setMessageSeparatorString('</label><label  class="text-danger">')
+		->setMessageCloseString('</label>')
+		->render($form->get('csrf'));
+}
+?>
+
 <?php echo $this->form()->openTag($form)?>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userName')->getMessages()) > 0 ? 'has-error' : '' ?>">
@@ -77,19 +91,31 @@ $this->headTitle($title);
 		?>
 	</div>
 
+	<div class="form-group has-feedback <?php echo count($form->get('captcha')->getMessages()) > 0 ? 'has-error' : '' ?>">
+		<?php echo $this->formelement($form->get('captcha'))?>
+		<?php
+			echo $this->formElementErrors()
+			    ->setMessageOpenFormat('<label class="text-danger">')
+			    ->setMessageSeparatorString('</label><label  class="text-danger">')
+			    ->setMessageCloseString('</label>')
+			    ->render($form->get('captcha'));
+		?>
+	</div>
+
 	<div class="row">
 		<div class="col-xs-8">
 
 		</div>
 		<!-- /.col -->
 		<div class="col-xs-4 text-right">
+			<?php echo $this->formElement($form->get('csrf')); ?>
 			<?php echo $this->formElement($form->get('submit')); ?>
 		</div>
 		<!-- /.col -->
 	</div>
 <?php echo $this->form()->closeTag()?>
 <script>
-$("#signup-form").validate({
+$("#signup-formx").validate({
 	errorClass: 'text-danger',
 	rules: {
 		userName: {
