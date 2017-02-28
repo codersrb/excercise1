@@ -45,10 +45,14 @@ class User implements InputFilterAwareInterface
     }
 
 
+	/**
+	 * @todo Set Input Filter
+	 */
 	public function setInputFilter(InputFilterInterface $inputFilter)
 	{
 	 	throw new \Exception("Not used");
 	}
+
 
 	/**
 	 * @todo Input Validation method
@@ -69,6 +73,12 @@ class User implements InputFilterAwareInterface
 				 $clause = 'userName = ' . (string) $data['userName'];
 			 }
 
+
+			 /**
+			  * @todo
+			  * Filters {StripTags, StringTrim}
+			  * Validations {StringLength, NoRecordExists, Alpha}
+			  */
 			 $inputFilter->add(array(
 			     'name'     => 'userName',
 			     'required' => true,
@@ -100,122 +110,153 @@ class User implements InputFilterAwareInterface
 			     ),
 			 ));
 
-		 $inputFilter->add(array(
-		     'name'     => 'userPassword',
-		     'required' => true,
-		     'filters'  => array(
-		         array('name' => 'StripTags'),
-		         array('name' => 'StringTrim'),
-		     ),
-		     'validators' => array(
-		         array(
-		             'name'    => 'StringLength',
-		             'options' => array(
-		                 'encoding' => 'UTF-8',
-		                 'min'      => 6,
-		                 'max'      => 25,
-		             ),
-		         ),
-				 array(
-					 'name' => 'Alnum'
-				 ),
-		     ),
-		 ));
+
+			 /**
+			 * @todo
+			 * Filters {StripTags, StringTrim}
+			 * Validations {StringLength, Alnum}
+			 */
+			 $inputFilter->add(array(
+			     'name'     => 'userPassword',
+			     'required' => true,
+			     'filters'  => array(
+			         array('name' => 'StripTags'),
+			         array('name' => 'StringTrim'),
+			     ),
+			     'validators' => array(
+			         array(
+			             'name'    => 'StringLength',
+			             'options' => array(
+			                 'encoding' => 'UTF-8',
+			                 'min'      => 6,
+			                 'max'      => 25,
+			             ),
+			         ),
+					 array(
+						 'name' => 'Alnum'
+					 ),
+			     ),
+			 ));
 
 
-		 $inputFilter->add(array(
-		     'name'     => 'userConfirmPassword',
-		     'required' => true,
-		     'filters'  => array(
-		         array('name' => 'StripTags'),
-		         array('name' => 'StringTrim'),
-		     ),
-		     'validators' => array(
-		         array(
-		             'name'    => 'StringLength',
-		             'options' => array(
-		                 'encoding' => 'UTF-8',
-						 'min'      => 6,
-		                 'max'      => 25,
-		             ),
-		         ),
-				 array(
-		            'name' => 'Identical',
-		            'options' => array(
-		                'token' => 'userPassword',
-		            ),
-		        ),
-				array(
-					'name' => 'Alnum'
-				),
+			 /**
+			 * @todo
+			 * Filters {StripTags, StringTrim}
+			 * Validations {StringLength, Identical, Alnum}
+			 */
+			 $inputFilter->add(array(
+			     'name'     => 'userConfirmPassword',
+			     'required' => true,
+			     'filters'  => array(
+			         array('name' => 'StripTags'),
+			         array('name' => 'StringTrim'),
+			     ),
+			     'validators' => array(
+			         array(
+			             'name'    => 'StringLength',
+			             'options' => array(
+			                 'encoding' => 'UTF-8',
+							 'min'      => 6,
+			                 'max'      => 25,
+			             ),
+			         ),
+					 array(
+			            'name' => 'Identical',
+			            'options' => array(
+			                'token' => 'userPassword',
+			            ),
+			        ),
+					array(
+						'name' => 'Alnum'
+					),
+			     ),
+			 ));
 
 
-		     ),
-		 ));
-
-		 $inputFilter->add(array(
-		     'name'     => 'userPhoneNumber',
-		     'required' => true,
-		     'filters'  => array(
-		         array('name' => 'StripTags'),
-		         array('name' => 'StringTrim'),
-		     ),
-		     'validators' => array(
-		         array(
-		             'name'    => 'StringLength',
-		             'options' => array(
-		                 'encoding' => 'UTF-8',
-		                 'min'      => 8,
-		                 'max'      => 15,
-		             ),
-		         ),
-				 array(
-		             'name'    => 'Digits',
-		         ),
-		     ),
-		 ));
-
-		 $inputFilter->add(array(
-		     'name'     => 'userDateofBirth',
-		     'required' => true,
-		     'filters'  => array(
-		         array('name' => 'StripTags'),
-		         array('name' => 'StringTrim'),
-		     ),
-			 'validators' => array(
-				 array('name' => 'Date')
-			 )
-		 ));
+			 /**
+			 * @todo
+			 * Filters {StripTags, StringTrim}
+			 * Validations {StringLength, Digits}
+			 */
+			 $inputFilter->add(array(
+			     'name'     => 'userPhoneNumber',
+			     'required' => true,
+			     'filters'  => array(
+			         array('name' => 'StripTags'),
+			         array('name' => 'StringTrim'),
+			     ),
+			     'validators' => array(
+			         array(
+			             'name'    => 'StringLength',
+			             'options' => array(
+			                 'encoding' => 'UTF-8',
+			                 'min'      => 8,
+			                 'max'      => 15,
+			             ),
+			         ),
+					 array(
+			             'name'    => 'Digits',
+			         ),
+			     ),
+			 ));
 
 
-		 $inputFilter->add(array(
-		     'name'     => 'userAddress',
-		     'required' => true,
-		     'filters'  => array(
-		         array('name' => 'StripTags'),
-		         array('name' => 'StringTrim'),
-		     ),
-		     'validators' => array(
-		         array(
-		             'name'    => 'StringLength',
-		             'options' => array(
-		                 'encoding' => 'UTF-8',
-		                 'min'      => 8,
-		                 'max'      => 50,
-		             ),
-		         ),
-		     ),
-		 ));
+			 /**
+			 * @todo
+			 * Filters {StripTags, StringTrim}
+			 * Validations {Date}
+			 */
+			 $inputFilter->add(array(
+			     'name'     => 'userDateofBirth',
+			     'required' => true,
+			     'filters'  => array(
+			         array('name' => 'StripTags'),
+			         array('name' => 'StringTrim'),
+			     ),
+				 'validators' => array(
+					 array('name' => 'Date')
+				 )
+			 ));
 
 
-		 $inputFilter->add(array(
-		     'name'     => 'csrf',
-		     'validators'  => array(
-		         array('name' => 'csrf'),
-		     )
-		 ));
+			 /**
+			 * @todo
+			 * Filters {StripTags, StringTrim}
+			 * Validations {StringLength}
+			 */
+			 $inputFilter->add(array(
+			     'name'     => 'userAddress',
+			     'required' => true,
+			     'filters'  => array(
+			         array('name' => 'StripTags'),
+			         array('name' => 'StringTrim'),
+			     ),
+			     'validators' => array(
+			         array(
+			             'name'    => 'StringLength',
+			             'options' => array(
+			                 'encoding' => 'UTF-8',
+			                 'min'      => 8,
+			                 'max'      => 50,
+			             ),
+			         ),
+			     ),
+			 ));
 
-		 $this->inputFilter = $inputFilter;
+
+			 /**
+			 * @todo
+			 * Validations {CSRF}
+			 */
+			 $inputFilter->add(array(
+			     'name'     => 'csrf',
+			     'validators'  => array(
+			         array('name' => 'csrf'),
+			     )
+			 ));
+
+		 	$this->inputFilter = $inputFilter;
+
 		}
 
 		return $this->inputFilter;

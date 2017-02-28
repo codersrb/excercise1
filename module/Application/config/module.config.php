@@ -10,6 +10,7 @@
 return array(
     'router' => array(
         'routes' => array(
+			/** Home route **/
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -21,6 +22,7 @@ return array(
                 ),
             ),
 
+			/** Signup success Route **/
 			'signup-success' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -33,6 +35,8 @@ return array(
             ),
         ),
     ),
+
+
     'service_manager' => array(
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
@@ -42,6 +46,8 @@ return array(
             'translator' => 'MvcTranslator',
         ),
     ),
+
+
     'translator' => array(
         'locale' => 'en_US',
         'translation_file_patterns' => array(
@@ -52,11 +58,20 @@ return array(
             ),
         ),
     ),
+
+
+	/**
+	 * @todo Register controller
+	 */
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
         ),
     ),
+
+	/**
+	 * @todo Register Layouts
+	 */
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -76,13 +91,20 @@ return array(
 			'login' => __DIR__ . '/../view/layout/login.phtml'
 		)
     ),
-    // Placeholder for console routes
+
+    /**
+	 * @todo Placeholder for console routes
+	 */
     'console' => array(
         'router' => array(
             'routes' => array(
             ),
         ),
     ),
+
+	/**
+	 * @todo Session Configuiration
+	 */
 	'session' => array(
         'remember_me_seconds' => 2419200,
         'use_cookies' => true,

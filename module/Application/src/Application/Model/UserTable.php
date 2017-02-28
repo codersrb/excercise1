@@ -9,6 +9,9 @@ class UserTable
 {
     protected $tableGateway;
 
+	/**
+	 * @todo Autoload dependencies
+	 */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
@@ -22,7 +25,7 @@ class UserTable
     {
 		$bcrypt = new Bcrypt();
 		$passwordHash = $bcrypt->create($user->userPassword);
-		
+
 		$data = [
 			'userName' => $user->userName,
 			'userPassword' => $passwordHash,

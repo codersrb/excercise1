@@ -136,21 +136,21 @@ class SignupForm extends Form
 		$this->add(array(
 	     'type' => 'Zend\Form\Element\Csrf',
 	     'name' => 'csrf',
-	    //  'options' => array(
-	    //          'csrf_options' => array(
-	    //                  'timeout' => 600
-	    //          )
-	    //  )
 	   ));
 
 
 	   $this->add(array(
+		    'type'  => 'Zend\Form\Element\Captcha',
             'name' => 'captcha',
             'options' => array(
                 'label' => 'Verification',
                 'captcha' => $this->captcha,
             ),
-            'type'  => 'Zend\Form\Element\Captcha',
+			'attributes' => array(
+				'class' => 'form-control',
+				'required' => true,
+				'placeholder' => 'Captcha'
+			),
         ));
 
 
