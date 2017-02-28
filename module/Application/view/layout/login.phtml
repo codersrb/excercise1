@@ -28,7 +28,9 @@
         echo $this->headScript()
 			->appendFile($this->basePath() . '/js/jquery.min.js')
 			->appendFile($this->basePath() . '/js/bootstrap.min.js')
-			->appendFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js');
+			->appendFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js')
+			->appendFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/additional-methods.min.js')
+			;
         ?>
 	</head>
 	<body class="hold-transition login-page">
