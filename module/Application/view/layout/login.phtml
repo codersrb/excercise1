@@ -22,6 +22,14 @@
 			->appendStylesheet($this->basePath() . '/plugins/iCheck/square/blue.css')
 			->appendStylesheet('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
 		?>
+
+		<?php
+
+        echo $this->headScript()
+			->appendFile($this->basePath() . '/js/jquery.min.js')
+			->appendFile($this->basePath() . '/js/bootstrap.min.js')
+			->appendFile('http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js');
+        ?>
 	</head>
 	<body class="hold-transition login-page">
 		<div class="login-box">

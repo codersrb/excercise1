@@ -1,7 +1,6 @@
 <?php
 namespace Application\Model;
 
-
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
@@ -19,7 +18,20 @@ class User implements InputFilterAwareInterface
     public $userAdded;
 
 	protected $inputFilter;
+	protected $dbAdapter;
 
+	/**
+	 * @todo Database adapter
+	 */
+	public function setDbAdapter($dbAdapter)
+    {
+		$this->dbAdapter = $dbAdapter;
+    }
+
+
+	/**
+	 * @todo to exchange received data to properties
+	 */
     public function exchangeArray($data)
     {
         $this->pkUserID     = (isset($data['pkUserID'])) ? $data['pkUserID'] : null;
@@ -33,19 +45,29 @@ class User implements InputFilterAwareInterface
     }
 
 
-	// Add content to these methods:
 	public function setInputFilter(InputFilterInterface $inputFilter)
 	{
 	 	throw new \Exception("Not used");
 	}
 
-
-
+	/**
+	 * @todo Input Validation method
+	 */
 	public function getInputFilter()
 	{
 		if(!$this->inputFilter)
 		{
 			$inputFilter = new InputFilter();
+
+			/**
+			 * @todo Clause for username validator
+			 */
+			 $clause = null;
+
+			 if($data['userName'])
+			 {
+				 $clause = 'userName = ' . (string) $data['userName'];
+			 }
 
 			 $inputFilter->add(array(
 			     'name'     => 'userName',
@@ -59,8 +81,17 @@ class User implements InputFilterAwareInterface
 			             'name'    => 'StringLength',
 			             'options' => array(
 			                 'encoding' => 'UTF-8',
-			                 'min'      => 1,
-			                 'max'      => 100,
+			                 'min'      => 4,
+			                 'max'      => 20,
+			             ),
+			         ),
+			         array(
+			             'name'    => '\Zend\Validator\Db\NoRecordExists',
+			             'options' => array(
+			                 'table' => 'tbl_users',
+							 'field'   => 'userName',
+					         'adapter' => $this->dbAdapter,
+					         'exclude' => $clause,
 			             ),
 			         ),
 			     ),
@@ -78,8 +109,8 @@ class User implements InputFilterAwareInterface
 		             'name'    => 'StringLength',
 		             'options' => array(
 		                 'encoding' => 'UTF-8',
-		                 'min'      => 1,
-		                 'max'      => 100,
+		                 'min'      => 6,
+		                 'max'      => 25,
 		             ),
 		         ),
 		     ),
@@ -98,15 +129,14 @@ class User implements InputFilterAwareInterface
 		             'name'    => 'StringLength',
 		             'options' => array(
 		                 'encoding' => 'UTF-8',
-		                 'min'      => 1,
-		                 'max'      => 100,
+						 'min'      => 6,
+		                 'max'      => 25,
 		             ),
 		         ),
 				 array(
 		            'name' => 'Identical',
 		            'options' => array(
 		                'token' => 'userPassword',
-						// 'messages' => [ \Zend\Validator\Identical::notSame => 'Password and Compare password should be same' ]
 		            ),
 		        ),
 
@@ -126,8 +156,8 @@ class User implements InputFilterAwareInterface
 		             'name'    => 'StringLength',
 		             'options' => array(
 		                 'encoding' => 'UTF-8',
-		                 'min'      => 1,
-		                 'max'      => 100,
+		                 'min'      => 8,
+		                 'max'      => 15,
 		             ),
 		         ),
 		     ),
@@ -139,17 +169,7 @@ class User implements InputFilterAwareInterface
 		     'filters'  => array(
 		         array('name' => 'StripTags'),
 		         array('name' => 'StringTrim'),
-		     ),
-		     'validators' => array(
-		         array(
-		             'name'    => 'StringLength',
-		             'options' => array(
-		                 'encoding' => 'UTF-8',
-		                 'min'      => 1,
-		                 'max'      => 100,
-		             ),
-		         ),
-		     ),
+		     )
 		 ));
 		 $inputFilter->add(array(
 		     'name'     => 'userAddress',
@@ -163,8 +183,8 @@ class User implements InputFilterAwareInterface
 		             'name'    => 'StringLength',
 		             'options' => array(
 		                 'encoding' => 'UTF-8',
-		                 'min'      => 1,
-		                 'max'      => 100,
+		                 'min'      => 8,
+		                 'max'      => 50,
 		             ),
 		         ),
 		     ),

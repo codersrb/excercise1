@@ -11,121 +11,13 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\Authentication\AuthenticationService;
-use Application\Forms\LoginForm;
 use Application\Forms\SignupForm;
 use Application\Model\User;
-use Application\Authentication\Adapter\AdminAuth as AuthAdapter;
+use Application\Model\UserTable;
 
 class IndexController extends AbstractActionController
 {
-
-	/**
-	 * @var Auth Holder property
-	 */
-	protected $auth;
-
-	protected $albumTable;
-	protected $adminTable;
 	protected $userTable;
-
-	/**
-	 * @todo Constructor method.
-	 * @todo To autoload dependencies
-	 */
-	public function __construct()
-	{
-		if (!$this->auth instanceof AuthenticationService)
-		{
-			$this->auth = new AuthenticationService();
-		}
-	}
-
-
-
-
-	/**
-	 * @todo Index action
-	 */
-    public function indexAction()
-    {
-		/** Check if logged-in */
-        if(!$this->auth->hasIdentity())
-		{
-			$this->redirect()->toRoute('admin-login');
-        }
-
-		return new ViewModel(['title' => 'Dashboard']);
-
-    }
-
-
-
-	/**
-	 * @todo Login Action
-	 */
-    public function loginAction()
-    {
-		/** Check if logged-in */
-        if($this->auth->hasIdentity())
-		{
-            $this->redirect()->toRoute('home');
-        }
-
-		$this->layout('login');
-
-
-        $formErrors = [];
-        $loginForm = new LoginForm();
-
-		/**
-		 * @todo If POST Request
-		 */
-        if($this->getRequest()->isPost())
-		{
-
-            $loginData = $this->getRequest()->getPost()->toArray();
-
-            /** Validate form data */
-            $loginForm->setInputFilter($this->getAdminTable()->loginFilter());
-
-            $loginForm->setData($loginData);
-
-            if($loginForm->isValid())
-			{
-                /** valid form, now login to system */
-                $data = $loginForm->getData();
-
-                $authAdapter = new AuthAdapter($data['uname'], $data['passwd'], $this->getAdminTable());
-                $result = $this->auth->authenticate($authAdapter);
-
-                // check if credential is invalid
-                if(!$result->isValid())
-				{
-                    $formErrors = $result->getMessages();
-                }
-				else
-				{
-                    $this->flashMessenger()->addMessage('Logged In');
-                    return $this->redirect()->toRoute('home');
-                }
-            }
-			else
-			{
-                $formErrors = $loginForm->getMessages();
-            }
-        }
-
-        return new ViewModel([
-            'loginForm' => $loginForm,
-            'aErrors' => $formErrors,
-			'title' => 'Login'
-        ]);
-
-
-    }
-
-
 	/**
 	 * @todo Signup Action
 	 */
@@ -143,16 +35,24 @@ class IndexController extends AbstractActionController
 		$request = $this->getRequest();
         if($request->isPost())
 		{
+			$dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+
 			$user = new User();
+			$user->setDbAdapter($dbAdapter);
             $signupForm->setInputFilter($user->getInputFilter());
             $signupForm->setData($request->getPost());
 
-
-
+			/** Validation */
 			if($signupForm->isValid())
 			{
                 $user->exchangeArray($signupForm->getData());
-                $this->getUserTable()->saveUser($user);
+                $boolSave = $this->getUserTable()->save($user);
+
+				if($boolSave)
+				{
+					$this->flashMessenger()->addMessage(['success' => 'Signup successful !']);
+					$this->redirect()->toRoute('signup-success');
+				}
 
             }
 			else
@@ -168,22 +68,22 @@ class IndexController extends AbstractActionController
             'formErrors' => $formErrors,
 			'title' => 'Login'
         ]);
-
-
     }
 
 
-	public function getAdminTable()
+	/**
+	 * @todo Signup success Action
+	 */
+    public function signupSuccessAction()
     {
-        if (!$this->adminTable) {
-            $sm = $this->getServiceLocator();
-            $this->adminTable = $sm->get('Application\Model\AdminTable');
-        }
-        return $this->adminTable;
+		$this->layout('login');
+
+        return new ViewModel();
     }
 
-
-
+	/**
+	 * @todo User table
+	 */
 	public function getUserTable()
     {
         if (!$this->userTable) {

@@ -13,7 +13,7 @@ class SignupForm extends Form
         parent::__construct('signup-form');
 
         $this->setAttribute('method', 'post');
-		$this->setAttribute('novalidate', 'novalidate');
+		// $this->setAttribute('novalidate', 'novalidate');
 
         $this->add(array(
             'name' => 'userName',
@@ -115,9 +115,6 @@ class SignupForm extends Form
 				'placeholder' => 'Address'
 			)
 		));
-
-        $this->add(new Csrf('token'));
-        $this->add(new Hidden('attempt'));
 
         $this->add(array(
             'name' => 'submit',

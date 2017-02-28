@@ -18,6 +18,11 @@ use Zend\Db\TableGateway\TableGateway;
 use Application\Model\User;
 use Application\Model\UserTable;
 
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\SessionManager;
+use Zend\Session\Container;
+use Zend\EventManager\EventInterface;
+
 class Module
 {
 
@@ -78,7 +83,19 @@ class Module
         $moduleRouteListener->attach($eventManager);
 
 
+		/**
+		 * @todo Add session service
+		 */
+		$config = $e->getApplication()
+                  ->getServiceManager()
+                  ->get('Configuration');
 
+	    $sessionConfig = new SessionConfig();
+	    $sessionConfig->setOptions($config['session']);
+	    $sessionManager = new SessionManager($sessionConfig);
+	    $sessionManager->start();
+
+    	Container::setDefaultManager($sessionManager);
 
 
 
@@ -86,7 +103,5 @@ class Module
         $app = $e->getTarget();
         $sm = $app->getServiceManager();
         $events = $app->getEventManager();
-        // $events->attach($sm->get('Common\Listeners\ApiErrorListener'));
-        // $events->attach($sm->get('Application\Listeners\OAuthListener'));
     }
 }

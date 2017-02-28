@@ -20,6 +20,17 @@ return array(
                     ),
                 ),
             ),
+
+			'signup-success' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/signup-success',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'signupSuccess',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
@@ -71,5 +82,10 @@ return array(
             'routes' => array(
             ),
         ),
+    ),
+	'session' => array(
+        'remember_me_seconds' => 2419200,
+        'use_cookies' => true,
+        'cookie_httponly' => true,
     ),
 );

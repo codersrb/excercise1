@@ -9,16 +9,10 @@ $this->headTitle($title);
 <?php  $form = $signupForm; ?>
 <?php $form->prepare(); ?>
 
-<?php
-// echo '<pre>';
-// print_r($formErrors);
-?>
-
-
 <?php echo $this->form()->openTag($form)?>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userName')->getMessages()) > 0 ? 'has-error' : '' ?>">
-		<?php echo $this->formelement($form->get('userName'))?> <span class="glyphicon glyphicon-user form-control-feedback"></span>
+		<?php echo $this->formelement($form->get('userName'))?>
 		<?php
 			echo $this->formElementErrors()
 			    ->setMessageOpenFormat('<label class="text-danger">')
@@ -29,7 +23,7 @@ $this->headTitle($title);
 	</div>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userPassword')->getMessages()) > 0 ? 'has-error' : '' ?>">
-		<?php echo $this->formelement($form->get('userPassword'))?>  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		<?php echo $this->formelement($form->get('userPassword'))?>
 		<?php
 			echo $this->formElementErrors()
 			    ->setMessageOpenFormat('<label class="text-danger">')
@@ -40,7 +34,7 @@ $this->headTitle($title);
 	</div>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userConfirmPassword')->getMessages()) > 0 ? 'has-error' : '' ?>">
-		<?php echo $this->formelement($form->get('userConfirmPassword'))?>  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		<?php echo $this->formelement($form->get('userConfirmPassword'))?>
 		<?php
 			echo $this->formElementErrors()
 			    ->setMessageOpenFormat('<label class="text-danger">')
@@ -51,7 +45,7 @@ $this->headTitle($title);
 	</div>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userDateofBirth')->getMessages()) > 0 ? 'has-error' : '' ?>">
-		<?php echo $this->formelement($form->get('userDateofBirth'))?>  <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+		<?php echo $this->formelement($form->get('userDateofBirth'))?>
 		<?php
 			echo $this->formElementErrors()
 			    ->setMessageOpenFormat('<label class="text-danger">')
@@ -62,7 +56,7 @@ $this->headTitle($title);
 	</div>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userPhoneNumber')->getMessages()) > 0 ? 'has-error' : '' ?>">
-		<?php echo $this->formelement($form->get('userPhoneNumber'))?>  <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+		<?php echo $this->formelement($form->get('userPhoneNumber'))?>
 		<?php
 			echo $this->formElementErrors()
 			    ->setMessageOpenFormat('<label class="text-danger">')
@@ -73,7 +67,7 @@ $this->headTitle($title);
 	</div>
 
 	<div class="form-group has-feedback <?php echo count($form->get('userAddress')->getMessages()) > 0 ? 'has-error' : '' ?>">
-		<?php echo $this->formelement($form->get('userAddress'))?>  <span class="glyphicon glyphicon-home form-control-feedback"></span>
+		<?php echo $this->formelement($form->get('userAddress'))?>  
 		<?php
 			echo $this->formElementErrors()
 			    ->setMessageOpenFormat('<label class="text-danger">')
@@ -89,9 +83,52 @@ $this->headTitle($title);
 		</div>
 		<!-- /.col -->
 		<div class="col-xs-4 text-right">
-			<?php echo $this->formElement($form->get('token')); ?>
 			<?php echo $this->formElement($form->get('submit')); ?>
 		</div>
 		<!-- /.col -->
 	</div>
 <?php echo $this->form()->closeTag()?>
+<script>
+$("#signup-form").validate({
+	errorClass: 'text-danger',
+	rules: {
+		userName: {
+			required: true,
+			minlength: 4,
+			maxlength: 20,
+		},
+		userPassword: {
+			required: true,
+			minlength: 6,
+			maxlength: 25,
+		},
+		userConfirmPassword: {
+			required: true,
+			minlength: 6,
+			maxlength: 25,
+			equalTo: 'input[name="userPassword"]'
+		},
+		userPhoneNumber: {
+			required: true,
+			minlength: 8,
+			maxlength: 15,
+		},
+		userAddress: {
+			required: true,
+			minlength: 8,
+			maxlength: 50,
+		}
+	},
+	messages: {
+		password: {
+			required: "Please provide a password",
+			minlength: "Your password must be at least 5 characters long"
+		},
+		confirm_password: {
+			required: "Please provide a password",
+			minlength: "Your password must be at least 5 characters long",
+			equalTo: "Please enter the same password as above"
+		},
+	}
+});
+</script>
